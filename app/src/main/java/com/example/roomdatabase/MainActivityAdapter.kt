@@ -6,8 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabase.databinding.SubscriberItemBinding
 import com.example.roomdatabase.db.Subscriber
+import com.example.roomdatabase.generated.callback.OnClickListener
 
-class MainActivityAdapter(private val subscriberstList: List<Subscriber>):RecyclerView.Adapter<MainActivityViewHolder>() {
+class MainActivityAdapter(private val subscriberstList: List<Subscriber>,
+                          private var clickListener:(Subscriber)->Unit)
+    :RecyclerView.Adapter<MainActivityViewHolder>()
+{
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityViewHolder {
 
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,15 +25,18 @@ class MainActivityAdapter(private val subscriberstList: List<Subscriber>):Recycl
     }
 
     override fun onBindViewHolder(holder: MainActivityViewHolder, position: Int) {
-        holder.bind(subscriberstList[position])
+        holder.bind(subscriberstList[position],clickListener)
     }
 
 }
 
 class MainActivityViewHolder(val binding: SubscriberItemBinding):RecyclerView.ViewHolder(binding.root){
-    fun bind(subscriber: Subscriber){
+    fun bind(subscriber: Subscriber , clickListener:(Subscriber)->Unit){
         binding.tvname.text = subscriber.name
         binding.tvemail.text = subscriber.email
+        binding.subscriberItem.setOnClickListener {
+            clickListener(subscriber)
+        }
     }
 
 }
