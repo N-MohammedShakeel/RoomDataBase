@@ -8,10 +8,11 @@ import com.example.roomdatabase.databinding.SubscriberItemBinding
 import com.example.roomdatabase.db.Subscriber
 import com.example.roomdatabase.generated.callback.OnClickListener
 
-class MainActivityAdapter(private val subscriberstList: List<Subscriber>,
-                          private var clickListener:(Subscriber)->Unit)
+class MainActivityAdapter(private var clickListener:(Subscriber)->Unit)
     :RecyclerView.Adapter<MainActivityViewHolder>()
 {
+        private val subscriberstList = ArrayList<Subscriber>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityViewHolder {
 
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,6 +27,11 @@ class MainActivityAdapter(private val subscriberstList: List<Subscriber>,
 
     override fun onBindViewHolder(holder: MainActivityViewHolder, position: Int) {
         holder.bind(subscriberstList[position],clickListener)
+    }
+
+    fun setList(subscribers: List<Subscriber>){
+        subscriberstList.clear()
+        subscriberstList.addAll(subscribers)
     }
 
 }
